@@ -98,16 +98,16 @@ def draw?(board)
 end
 
 def over?(board)
-  if won?(board) || full?(board) || draw?(board)
-    return true
-  else
-    return false
-  end
+  won?(board) || full?(board) || draw?(board)
 end
 
 def winner(board)
-  if won?(board)
+  if draw?(board)
+    return nil
+  elsif over?(board)
     return board[won?(board)[0]]
+  else
+    return nil
   end
 end
 
