@@ -24,7 +24,7 @@ def input_to_index(input)
   user_input = input.to_i - 1
 end
 
-def move(board, index, value)
+def move(board, index, values)
   board[index] = value
 end
 
@@ -112,5 +112,13 @@ end
      return board[won?(board)[0]]
    else
      return nil
+   end
+ end
+
+ def play(board)
+   counter = 0
+   until counter == 9
+     turn(board)
+     counter += 1
    end
  end
