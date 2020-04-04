@@ -47,8 +47,8 @@ def turn(board)
    return move(board, index) && display_board(board)
    else puts "Please enter 1-9:"
     return turn(board)
-end
  end
+end
 
  def turn_count(board)
    counter = 0
