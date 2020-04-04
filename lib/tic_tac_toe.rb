@@ -9,110 +9,108 @@ WIN_COMBINATIONS = [
  [2,4,6]
 ]
 
-ddef display_board(board)
-  puts " #{board[0]} | #{board[1]} | #{board[2]} "
-  puts "-----------"
-  puts " #{board[3]} | #{board[4]} | #{board[5]} "
-  puts "-----------"
-  puts " #{board[6]} | #{board[7]} | #{board[8]} "
+def display_board(board)
+   puts " #{board[0] } | #{board[1] } | #{board[2] } "
+   puts "-----------"
+   puts " #{board[3] } | #{board[4] } | #{board[5] } "
+   puts "-----------"
+   puts " #{board[6] } | #{board[7] } | #{board[8] } "
+ end
+
+ def input_to_index(user_input)
+  user_input.to_i-1
 end
 
-def input_to_index(user_input)
-  user_input.to_i - 1
+def move(board, position, token)
+  index = position.to_i - 1
+  board[position] = token
 end
 
-def move(board, index, player)
-  board[index] = player
-end
-
-def position_taken?(board, location)
-  board[location] != " " && board[location] != ""
+def position_taken?(board, index)
+  if board[index] == " " || board[index] == "" || board[index] == nil
+    return false
+  else
+    return true
+  end
 end
 
 def valid_move?(board, index)
-  index.between?(0,8) && !position_taken?(board, index)
+ (index).between?(0,8) && !(position_taken?(board, index))
 end
 
 def turn(board)
-  puts "Please enter 1-9:"
-  input = gets.strip
-  index = input_to_index(input)
-  if valid_move?(board, index)
-    move(board, index, current_player(board))
-    display_board(board)
-
-  else
-    turn(board)
-  end
+  puts "Please enter 1-9:"   #1. Asking the user for their move by position 1-9.
+  user_input = gets.strip    #2.  Receiving the user input.
+  index = input_to_index(user_input) #3.  Convert user input to an index
+   if valid_move?(board, index) #4.  If the move is valid, make the move and display board.
+      token = current_player(board)
+      move(board, index, token)
+      display_board(board)
+    else         #5.  Otherwise (that is, if the move is invalid) ask for a new position until a valid move is received.
+      turn(board)
+   end
 end
 
 def turn_count(board)
-  counter = 0
-  board.each do |element|
-    if element == "X" || element == "O" then counter += 1 end
+  # board.count{|token| token == "X" || token == "O"}
+  # 9 - board.count(" ")
+  turns = 0
+  board.each do |token|
+    if token == "X" || token == "O"
+      turns += 1
+    end
   end
-  counter
+  turns
 end
 
 def current_player(board)
-  if turn_count(board).even?
-    "X"
-  elsif turn_count(board).odd?
-    "O"
-  end
+  turn_count(board) % 2 == 0 ? "X" : "O"
 end
 
 def won?(board)
-
-WIN_COMBINATIONS.each do |combo|
-
-  position_1 = board[combo[0]]
-  position_2 = board[combo[1]]
-  position_3 = board[combo[2]]
-
-  if position_1 == "X" && position_2 == "X" && position_3 == "X" || position_1 == "O" && position_2 == "O" && position_3 == "O"
-    return combo
-  else
-    false
-  end
-  end
-  if full?(board) == false
-    return false
+ WIN_COMBINATIONS.detect do |combo|
+   board[combo[0]] == board[combo[1]] &&
+    board[combo[1]] == board[combo[2]] &&
+    position_taken?(board, combo[0])
   end
 end
 
-def full?(board)
-  board.all? do |spot|
-    spot == "X" || spot == "O"
-  end
+def full?(board) #return true if every element in the board contains either an "X" or an "O"
+  board.all? { |index| index == "X" || index == "O" }
 end
 
 def draw?(board)
-  full?(board) && !won?(board)
+  !won?(board) && full?(board)
+  #   true
+#  elsif !won?(board) && !full?(board)
+#     false
+#  else won?(board)
+#     false
+#  end
 end
 
 def over?(board)
-  if won?(board) != false || draw?(board) == true || full?(board) == true
-    true
+  if won?(board) || full?(board) || draw?(board)
+    return true
   else
-    false
+    return false
   end
 end
 
 def winner(board)
   if won?(board)
-  row_win = won?(board)
-  board[row_win[0]]
-end
+    return board[won?(board)[0]]
+  end
 end
 
 def play(board)
   until over?(board)
+    current_player(board)
     turn(board)
   end
   if won?(board)
     puts "Congratulations #{winner(board)}!"
-  elsif draw?(board)
-    puts "Cat's Game!"
+  else
+    puts "Cat\'s Game!"
   end
 end
