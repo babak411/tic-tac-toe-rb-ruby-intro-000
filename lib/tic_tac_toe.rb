@@ -65,24 +65,6 @@ def turn(board)
   end
 end
 
- def turn_count(board)
-   counter = 0
-   board.each do |spaces|
-     if spaces == "X" || spaces == "O"
-     counter += 1
-   end
- end
- counter
- end
-
- def current_player(board)
-   if turn_count(board).even?
-      "X"
-   else
-     "O"
- end
- end
-
  def won?(board)
    WIN_COMBINATIONS.detect do |win_combination|
      win_index_1 = win_combination[0]
