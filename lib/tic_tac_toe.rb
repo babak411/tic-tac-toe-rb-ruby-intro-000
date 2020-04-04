@@ -39,6 +39,25 @@ def valid_move?(board, index)
  end
 end
 
+def turn_count(board)
+  turn = 0
+  board.each do |index|
+    if index == "X" || index == "O"
+      turn += 1
+    end
+  end
+  return turn
+end
+
+def current_player(board)
+  if num_turns % 2 == 0
+    player = "X"
+  else
+    player = "O"
+  end
+  return player
+end
+
 def turn(board)
   puts "Please choose a number 1-9:"
   user_input = gets.chomp
