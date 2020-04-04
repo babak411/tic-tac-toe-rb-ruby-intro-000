@@ -21,7 +21,7 @@ def display_board(board)
   user_input.to_i-1
 end
 
-def move(board, position, token)
+def move(board, position, value)
   index = position.to_i - 1
   board[position] = token
 end
@@ -39,24 +39,22 @@ def valid_move?(board, index)
 end
 
 def turn(board)
-  puts "Please enter 1-9:"   #1. Asking the user for their move by position 1-9.
-  user_input = gets.strip    #2.  Receiving the user input.
-  index = input_to_index(user_input) #3.  Convert user input to an index
-   if valid_move?(board, index) #4.  If the move is valid, make the move and display board.
+  puts "Please enter 1-9:"
+  user_input = gets.strip
+  index = input_to_index(user_input)
+   if valid_move?(board, index)
       token = current_player(board)
       move(board, index, token)
       display_board(board)
-    else         #5.  Otherwise (that is, if the move is invalid) ask for a new position until a valid move is received.
+    else
       turn(board)
    end
 end
 
 def turn_count(board)
-  # board.count{|token| token == "X" || token == "O"}
-  # 9 - board.count(" ")
   turns = 0
-  board.each do |token|
-    if token == "X" || token == "O"
+  board.each do |value|
+    if value == "X" || value == "O"
       turns += 1
     end
   end
@@ -75,18 +73,12 @@ def won?(board)
   end
 end
 
-def full?(board) #return true if every element in the board contains either an "X" or an "O"
+def full?(board)
   board.all? { |index| index == "X" || index == "O" }
 end
 
 def draw?(board)
   !won?(board) && full?(board)
-  #   true
-#  elsif !won?(board) && !full?(board)
-#     false
-#  else won?(board)
-#     false
-#  end
 end
 
 def over?(board)
@@ -111,6 +103,6 @@ def play(board)
   if won?(board)
     puts "Congratulations #{winner(board)}!"
   else
-    puts "Cat\'s Game!"
+    puts "Cat's Game!"
   end
 end
