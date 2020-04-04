@@ -24,7 +24,7 @@ def input_to_index(input)
   user_input = input.to_i - 1
 end
 
-def move(board, index, values)
+def move(board, index, value)
   board[index] = value
 end
 
@@ -128,4 +128,5 @@ end
      puts "Draw!"
    end
  end
+end
 end
