@@ -9,9 +9,6 @@ WIN_COMBINATIONS = [
  [2,4,6]
 ]
 
-board = [" "," "," "," "," "," "," "," "," "]
-index = [0, 1, 2, 3, 4, 5, 6, 7, 8]
-
 def display_board(board)
   puts " #{board[0]} | #{board[1]} | #{board[2]} "
   puts "-----------"
@@ -34,9 +31,6 @@ end
 
 def valid_move?(board, index)
  if index.between?(0,8) && !position_taken?(board,index)
-   true
- else false
- end
 end
 
 def turn_count(board)
