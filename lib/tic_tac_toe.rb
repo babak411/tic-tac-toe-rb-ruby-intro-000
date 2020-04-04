@@ -139,10 +139,10 @@ end
    until over?(board) == true
      turn(board)
    end
+
    if won?(board)
-     puts "Congratulations!"
-   else draw?(board)
-     puts "Draw!"
+     puts "Congratulations #{winner(board)}!"
+   elsif draw?(board)
+     puts "draw!"
    end
  end
-end
